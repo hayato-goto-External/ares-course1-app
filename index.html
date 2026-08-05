@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#1a1a1a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ARES過去問">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="manifest" href="manifest.json">
+<title>ARES Course1 過去問</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ============================================================ -->
+<!-- ホーム画面 -->
+<!-- ============================================================ -->
+<section id="view-home" class="view active">
+  <header class="app-header">
+    <h1>ARES Course1</h1>
+    <div class="header-actions">
+      <button class="icon-btn" id="btn-settings" aria-label="設定">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="home-body">
+    <!-- 今日の学習カード -->
+    <div class="card daily-card">
+      <div class="daily-label">今日の復習</div>
+      <div class="daily-value">
+        <span id="due-count">0</span>
+        <span class="daily-unit">問</span>
+      </div>
+      <div class="daily-sub" id="due-subtitle">復習期限の問題はありません</div>
+      <button class="primary-btn full" id="btn-start-review">復習を開始</button>
+    </div>
+
+    <!-- モード選択 -->
+    <div class="section-title">学習モード</div>
+    <div class="mode-grid">
+      <button class="mode-card" data-mode="practice">
+        <div class="mode-icon">📝</div>
+        <div class="mode-name">通常演習</div>
+        <div class="mode-sub">フィルタ設定して解く</div>
+      </button>
+      <button class="mode-card" data-mode="weak">
+        <div class="mode-icon">🎯</div>
+        <div class="mode-name">苦手集中</div>
+        <div class="mode-sub">正答率の低い項目</div>
+      </button>
+      <button class="mode-card" data-mode="daily">
+        <div class="mode-icon">☀️</div>
+        <div class="mode-name">今日の10問</div>
+        <div class="mode-sub">ランダム10問</div>
+      </button>
+      <button class="mode-card" data-mode="exam">
+        <div class="mode-icon">⏱</div>
+        <div class="mode-name">本試験</div>
+        <div class="mode-sub">50問120分</div>
+      </button>
+      <button class="mode-card" data-mode="bookmark">
+        <div class="mode-icon">⭐</div>
+        <div class="mode-name">ブックマーク</div>
+        <div class="mode-sub"><span id="bookmark-count">0</span>問</div>
+      </button>
+      <button class="mode-card" data-mode="stats">
+        <div class="mode-icon">📊</div>
+        <div class="mode-name">統計</div>
+        <div class="mode-sub">正答率・履歴</div>
+      </button>
+    </div>
+
+    <!-- 総合統計 -->
+    <div class="section-title">全体サマリー</div>
+    <div class="stat-row">
+      <div class="stat-item">
+        <div class="stat-value" id="stat-attempted">0</div>
+        <div class="stat-label">挑戦済</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="stat-accuracy">-</div>
+        <div class="stat-label">正答率</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="stat-streak">0</div>
+        <div class="stat-label">連続日数</div>
+      </div>
+    </div>
+
+    <div class="footer-note">
+      全500問 · 5年分（2021・2022・2023・2024・2025）
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- 演習画面 -->
+<!-- ============================================================ -->
+<section id="view-quiz" class="view">
+  <header class="app-header quiz-header">
+    <button class="icon-btn" id="btn-quiz-back" aria-label="戻る">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </button>
+    <div class="quiz-progress">
+      <span id="quiz-index">0</span> / <span id="quiz-total">0</span>
+    </div>
+    <div class="header-actions">
+      <button class="icon-btn" id="btn-bookmark" aria-label="ブックマーク">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" id="bookmark-icon"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      </button>
+      <button class="icon-btn" id="btn-filter" aria-label="フィルタ">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+      </button>
+    </div>
+  </header>
+  <div class="progress-bar-wrap"><div class="progress-bar" id="progress-bar"></div></div>
+
+  <div class="quiz-body">
+    <div class="q-meta" id="q-meta"></div>
+    <div class="q-num" id="q-num"></div>
+    <div class="q-stem" id="q-stem"></div>
+
+    <div class="q-choices" id="q-choices"></div>
+
+    <div class="q-actions" id="q-actions">
+      <button class="primary-btn full" id="btn-submit">解答する</button>
+    </div>
+
+    <div class="q-explanation" id="q-explanation" hidden>
+      <div class="expl-header">
+        <span class="expl-title" id="expl-title">正解</span>
+        <span class="expl-answer" id="expl-answer"></span>
+      </div>
+      <div class="expl-body" id="expl-body"></div>
+      <div class="expl-note" id="expl-note" hidden></div>
+
+      <div class="srs-rating">
+        <div class="srs-label">難易度</div>
+        <div class="srs-buttons">
+          <button class="srs-btn" data-rating="again">
+            <div>もう一度</div>
+            <div class="srs-interval" id="srs-again">1日</div>
+          </button>
+          <button class="srs-btn" data-rating="hard">
+            <div>難しい</div>
+            <div class="srs-interval" id="srs-hard">3日</div>
+          </button>
+          <button class="srs-btn" data-rating="good">
+            <div>普通</div>
+            <div class="srs-interval" id="srs-good">7日</div>
+          </button>
+          <button class="srs-btn" data-rating="easy">
+            <div>簡単</div>
+            <div class="srs-interval" id="srs-easy">14日</div>
+          </button>
+        </div>
+      </div>
+
+      <div class="q-note">
+        <label class="q-note-label">メモ</label>
+        <textarea id="q-note-input" placeholder="この問題のポイントをメモ..." rows="2"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="quiz-nav" id="quiz-nav" hidden>
+    <button class="secondary-btn" id="btn-prev">前の問題</button>
+    <button class="primary-btn" id="btn-next">次の問題 →</button>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- フィルタ画面 -->
+<!-- ============================================================ -->
+<section id="view-filter" class="view">
+  <header class="app-header">
+    <button class="icon-btn" id="btn-filter-back" aria-label="戻る">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </button>
+    <h1>フィルタ設定</h1>
+    <div class="header-actions">
+      <button class="text-btn" id="btn-filter-reset">リセット</button>
+    </div>
+  </header>
+
+  <div class="filter-body">
+    <div class="filter-group">
+      <div class="filter-label">年度</div>
+      <div class="chip-group" id="filter-year"></div>
+    </div>
+    <div class="filter-group">
+      <div class="filter-label">午前・午後</div>
+      <div class="chip-group" id="filter-session"></div>
+    </div>
+    <div class="filter-group">
+      <div class="filter-label">科目（新カリキュラム 2024〜）</div>
+      <div class="chip-group" id="filter-sub-new"></div>
+    </div>
+    <div class="filter-group">
+      <div class="filter-label">科目（旧カリキュラム 〜2023）</div>
+      <div class="chip-group" id="filter-sub-old"></div>
+    </div>
+    <div class="filter-group">
+      <div class="filter-label">出題形式</div>
+      <div class="chip-group" id="filter-fmt"></div>
+    </div>
+    <div class="filter-group">
+      <div class="filter-label">出題項目キーワード検索</div>
+      <input type="text" id="filter-topic" placeholder="例: J-REIT / CAPM / SPC">
+    </div>
+    <div class="filter-group">
+      <div class="filter-label">出題モード</div>
+      <div class="chip-group single-select" id="filter-order">
+        <div class="chip selected" data-value="order">順番</div>
+        <div class="chip" data-value="random">ランダム</div>
+        <div class="chip" data-value="new-first">未挑戦のみ</div>
+        <div class="chip" data-value="wrong-only">間違いのみ</div>
+      </div>
+    </div>
+
+    <div class="filter-summary" id="filter-summary">
+      対象: <span id="filter-count">500</span>問
+    </div>
+
+    <button class="primary-btn full" id="btn-filter-start">この設定で始める</button>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- 統計画面 -->
+<!-- ============================================================ -->
+<section id="view-stats" class="view">
+  <header class="app-header">
+    <button class="icon-btn" id="btn-stats-back" aria-label="戻る">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </button>
+    <h1>統計</h1>
+  </header>
+  <div class="stats-body">
+    <div class="stat-row">
+      <div class="stat-item large">
+        <div class="stat-value" id="stats-attempted">0</div>
+        <div class="stat-label">挑戦済</div>
+      </div>
+      <div class="stat-item large">
+        <div class="stat-value" id="stats-correct">0</div>
+        <div class="stat-label">正解</div>
+      </div>
+      <div class="stat-item large">
+        <div class="stat-value" id="stats-accuracy">-</div>
+        <div class="stat-label">正答率</div>
+      </div>
+    </div>
+
+    <div class="section-title">科目別</div>
+    <div class="subject-stats" id="subject-stats"></div>
+
+    <div class="section-title">苦手項目（正答率60%未満・3回以上挑戦）</div>
+    <div class="weak-topics" id="weak-topics"></div>
+
+    <div class="section-title">最近7日の学習</div>
+    <div class="daily-history" id="daily-history"></div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- 本試験モード -->
+<!-- ============================================================ -->
+<section id="view-exam" class="view">
+  <header class="app-header exam-header">
+    <button class="icon-btn" id="btn-exam-back" aria-label="戻る">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+    <div class="exam-timer" id="exam-timer">120:00</div>
+    <div class="exam-progress">
+      <span id="exam-index">1</span> / <span id="exam-total">50</span>
+    </div>
+  </header>
+
+  <div class="quiz-body" id="exam-body">
+    <div class="q-meta" id="exam-meta"></div>
+    <div class="q-num" id="exam-num"></div>
+    <div class="q-stem" id="exam-stem"></div>
+    <div class="q-choices" id="exam-choices"></div>
+  </div>
+
+  <div class="exam-nav">
+    <button class="secondary-btn" id="btn-exam-prev">前</button>
+    <button class="text-btn" id="btn-exam-list">一覧</button>
+    <button class="primary-btn" id="btn-exam-next">次 →</button>
+    <button class="primary-btn danger" id="btn-exam-submit" hidden>採点</button>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- 本試験結果 -->
+<!-- ============================================================ -->
+<section id="view-exam-result" class="view">
+  <header class="app-header">
+    <h1>試験結果</h1>
+  </header>
+  <div class="stats-body">
+    <div class="score-card">
+      <div class="score-label">得点</div>
+      <div class="score-value"><span id="score-correct">0</span> / <span id="score-total">50</span></div>
+      <div class="score-pct" id="score-pct">0%</div>
+      <div class="score-pass" id="score-pass"></div>
+    </div>
+
+    <div class="section-title">科目別スコア</div>
+    <div class="exam-subject-scores" id="exam-subject-scores"></div>
+
+    <div class="section-title">間違えた問題</div>
+    <div class="exam-wrong-list" id="exam-wrong-list"></div>
+
+    <button class="primary-btn full" id="btn-exam-review">間違えた問題を復習する</button>
+    <button class="secondary-btn full" id="btn-exam-home" style="margin-top:8px;">ホームに戻る</button>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- 設定画面 -->
+<!-- ============================================================ -->
+<section id="view-settings" class="view">
+  <header class="app-header">
+    <button class="icon-btn" id="btn-settings-back" aria-label="戻る">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </button>
+    <h1>設定</h1>
+  </header>
+  <div class="settings-body">
+    <div class="settings-group">
+      <label class="settings-item">
+        <span>ダークモード</span>
+        <select id="setting-theme">
+          <option value="auto">自動</option>
+          <option value="light">ライト</option>
+          <option value="dark">ダーク</option>
+        </select>
+      </label>
+      <label class="settings-item">
+        <span>文字サイズ</span>
+        <select id="setting-fontsize">
+          <option value="sm">小</option>
+          <option value="md" selected>中</option>
+          <option value="lg">大</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="settings-group">
+      <div class="settings-title">データ管理</div>
+      <button class="secondary-btn full" id="btn-export">学習履歴をエクスポート</button>
+      <button class="secondary-btn full" id="btn-import">学習履歴をインポート</button>
+      <input type="file" id="import-file" accept=".json" hidden>
+      <button class="secondary-btn full danger" id="btn-reset">全データをリセット</button>
+    </div>
+
+    <div class="settings-group">
+      <div class="settings-title">情報</div>
+      <div class="settings-info">
+        <div>ARES Course1 過去問アプリ</div>
+        <div>収録問題: 500問（2021〜2025）</div>
+        <div>2024年度: 100問すべて解説あり</div>
+        <div>2022・2025年度: 出題項目タグあり</div>
+        <div>2021・2023年度: 問題文・選択肢・正答のみ</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Toast for confirmations -->
+<div class="toast" id="toast" hidden></div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(e => console.log('SW registration failed', e));
+  });
+}
+</script>
+</body>
+</html>
