@@ -1,5 +1,5 @@
 /* ARES Course1 App - Service Worker */
-const CACHE_NAME = 'ares-course1-v1';
+const CACHE_NAME = 'ares-course1-v3';
 const ASSETS = [
   './',
   './index.html',
